@@ -74,7 +74,6 @@ RUN git clone git://itk.org/SimpleITK.git && \
     ../SimpleITK/SuperBuild && \
   ninja && \
   cd SimpleITK-build && \
-  ninja install && \
   cd Wrapping && \
   /usr/bin/python3 ./PythonPackage/setup.py install && \
   cd ../../.. && \
