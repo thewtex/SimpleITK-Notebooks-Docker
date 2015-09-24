@@ -83,5 +83,3 @@ USER root
 RUN pip3 install ipywidgets
 RUN apt-get install -y python3-matplotlib
 RUN pip install --upgrade numpy
-
-ADD . ./
