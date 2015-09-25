@@ -1,6 +1,7 @@
-FROM thewtex/jupyter-notebook-debian:latest
+FROM thewtex/jupyter-notebook-debian:83cded905eff
 MAINTAINER Insight Software Consortium <community@itk.org>
 
+USER root
 
 # Install SimpleITK Python wrapping
 RUN apt-get update && apt-get install -y \
@@ -83,3 +84,5 @@ USER root
 RUN pip3 install ipywidgets
 RUN apt-get install -y python3-matplotlib
 RUN pip install --upgrade numpy
+
+USER jovyan
