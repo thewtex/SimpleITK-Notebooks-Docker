@@ -1,8 +1,8 @@
-FROM thewtex/jupyter-notebook-debian:latest
+FROM thewtex/jupyter-notebook-debian:83cded905eff
 MAINTAINER Insight Software Consortium <community@itk.org>
 
+USER root
 
-# Install SimpleITK Python wrapping
 RUN apt-get update && apt-get install -y \
   build-essential \
   curl \
@@ -15,37 +15,17 @@ RUN apt-get update && apt-get install -y \
   libpython3-dev \
   libtiff5-dev \
   python3 \
+  python3-matplotlib \
+  python3-numpy \
   python3-pip \
   ninja-build \
   wget \
   vim \
   zlib1g-dev
 
+RUN pip3 install ipywidgets
+
 WORKDIR /usr/src
-
-RUN git clone git://itk.org/ITK.git && \
-  cd ITK && \
-  git checkout v4.8.0 && \
-  cd ../ && \
-  mkdir ITK-build && \
-  cd ITK-build && \
-  cmake \
-    -G Ninja \
-    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
-    -DBUILD_EXAMPLES:BOOL=OFF \
-    -DBUILD_TESTING:BOOL=OFF \
-    -DBUILD_SHARED_LIBS:BOOL=ON \
-    -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON \
-    -DCMAKE_SKIP_RPATH:BOOL=ON \
-    -DITK_LEGACY_REMOVE:BOOL=ON \
-    -DITK_BUILD_DEFAULT_MODULES:BOOL=ON \
-    -DITK_USE_SYSTEM_LIBRARIES:BOOL=ON \
-    -DModule_ITKReview:BOOL=ON \
-    ../ITK && \
-  ninja install && \
-  cd .. && \
-  rm -rf ITK ITK-build
-
 RUN git clone git://itk.org/SimpleITK.git && \
   cd SimpleITK && \
   git checkout v0.9.0 && \
@@ -58,9 +38,9 @@ RUN git clone git://itk.org/SimpleITK.git && \
     -DSimpleITK_BUILD_DISTRIBUTE:BOOL=ON \
     -DSimpleITK_BUILD_STRIP:BOOL=ON \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DUSE_SYSTEM_ITK:BOOL=ON \
     -DBUILD_TESTING:BOOL=OFF \
     -DBUILD_SHARED_LIBS:BOOL=OFF \
+    -DITK_USE_SYSTEM_LIBRARIES:BOOL=ON \
     -DWRAP_CSHARP:BOOL=OFF \
     -DWRAP_LUA:BOOL=OFF \
     -DWRAP_PYTHON:BOOL=ON \
@@ -79,7 +59,11 @@ RUN git clone git://itk.org/SimpleITK.git && \
   cd ../../.. && \
   rm -rf SimpleITK SimpleITK-build
 
-USER root
-RUN pip3 install ipywidgets
-RUN apt-get install -y python3-matplotlib
-RUN pip install --upgrade numpy
+USER jovyan
+
+RUN jupyter notebook --generate-config
+RUN git clone https://github.com/damianavila/RISE.git && \
+  cd RISE && \
+  JUPYTER_CONFIG_DIR=/root/.jupyter python3 setup.py install && \
+  cd .. && \
+  rm -rf RISE
