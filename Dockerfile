@@ -3,7 +3,6 @@ MAINTAINER Insight Software Consortium <community@itk.org>
 
 USER root
 
-# Install SimpleITK Python wrapping
 RUN apt-get update && apt-get install -y \
   build-essential \
   curl \
@@ -16,14 +15,17 @@ RUN apt-get update && apt-get install -y \
   libpython3-dev \
   libtiff5-dev \
   python3 \
+  python3-matplotlib \
+  python3-numpy \
   python3-pip \
   ninja-build \
   wget \
   vim \
   zlib1g-dev
 
-WORKDIR /usr/src
+RUN pip3 install ipywidgets
 
+WORKDIR /usr/src
 RUN git clone git://itk.org/SimpleITK.git && \
   cd SimpleITK && \
   git checkout v0.9.0 && \
@@ -56,10 +58,5 @@ RUN git clone git://itk.org/SimpleITK.git && \
   /usr/bin/python3 ./PythonPackage/setup.py install && \
   cd ../../.. && \
   rm -rf SimpleITK SimpleITK-build
-
-USER root
-RUN pip3 install ipywidgets
-RUN apt-get install -y python3-matplotlib
-RUN pip install --upgrade numpy
 
 USER jovyan
