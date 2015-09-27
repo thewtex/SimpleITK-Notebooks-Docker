@@ -60,7 +60,7 @@ RUN git clone git://itk.org/SimpleITK.git && \
   rm -rf SimpleITK SimpleITK-build
 
 USER jovyan
-WORKDIR /home/jovyan
+WORKDIR /home/jovyan/notebooks
 
 RUN jupyter notebook --generate-config
 RUN git clone https://github.com/damianavila/RISE.git && \
