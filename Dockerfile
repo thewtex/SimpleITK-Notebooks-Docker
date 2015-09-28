@@ -1,4 +1,4 @@
-FROM thewtex/jupyter-notebook-debian:83cded905eff
+FROM thewtex/jupyter-notebook-debian:effe6294c840
 MAINTAINER Insight Software Consortium <community@itk.org>
 
 USER root
@@ -60,7 +60,7 @@ RUN git clone git://itk.org/SimpleITK.git && \
   rm -rf SimpleITK SimpleITK-build
 
 USER jovyan
-WORKDIR /home/jovyan
+WORKDIR /home/jovyan/notebooks
 
 RUN jupyter notebook --generate-config
 RUN git clone https://github.com/damianavila/RISE.git && \
