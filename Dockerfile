@@ -1,4 +1,4 @@
-FROM thewtex/jupyter-notebook-debian:effe6294c840
+FROM thewtex/jupyter-notebook-debian
 MAINTAINER Insight Software Consortium <community@itk.org>
 
 USER root
@@ -28,7 +28,7 @@ RUN pip3 install ipywidgets
 WORKDIR /usr/src
 RUN git clone git://itk.org/SimpleITK.git && \
   cd SimpleITK && \
-  git checkout v0.9.0 && \
+  git checkout v0.9.1 && \
   cd .. && \
   mkdir SimpleITK-build && \
   cd SimpleITK-build && \
