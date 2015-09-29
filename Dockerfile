@@ -1,4 +1,4 @@
-FROM thewtex/jupyter-notebook-debian
+FROM thewtex/jupyter-notebook-debian:1e8033dbf12f
 MAINTAINER Insight Software Consortium <community@itk.org>
 
 USER root
@@ -59,6 +59,7 @@ RUN git clone git://itk.org/SimpleITK.git && \
   cd ../../.. && \
   rm -rf SimpleITK SimpleITK-build
 
+RUN chown -R jovyan:users /home/jovyan
 USER jovyan
 WORKDIR /home/jovyan/notebooks
 
