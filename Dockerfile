@@ -12,8 +12,13 @@ RUN apt-get update && apt-get install -y \
   libhdf5-dev \
   libjpeg-dev \
   libpng12-dev \
+  libpython-dev \
   libpython3-dev \
   libtiff5-dev \
+  python \
+  python-matplotlib \
+  python-numpy \
+  python-pip \
   python3 \
   python3-matplotlib \
   python3-numpy \
@@ -23,7 +28,13 @@ RUN apt-get update && apt-get install -y \
   vim \
   zlib1g-dev
 
-RUN pip3 install ipywidgets
+RUN pip2 install ipywidgets && \
+  pip3 install ipywidgets
+WORKDIR /srv/ipykernel
+RUN pip2 install .
+WORKDIR /srv/notebook
+RUN pip2 install . && \
+  python2 -m ipykernel.kernelspec
 
 WORKDIR /usr/src
 RUN git clone git://itk.org/SimpleITK.git && \
@@ -53,9 +64,17 @@ RUN git clone git://itk.org/SimpleITK.git && \
     -DPYTHON_LIBRARY:FILEPATH=/usr/lib/python3.4/config-3.4m-x86_64-linux-gnu/libpython3.4.so \
     ../SimpleITK/SuperBuild && \
   ninja && \
-  cd SimpleITK-build && \
-  cd Wrapping && \
+  cd SimpleITK-build/Wrapping && \
   /usr/bin/python3 ./PythonPackage/setup.py install && \
+  cd ../.. && \
+  cmake \
+    -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python2 \
+    -DPYTHON_INCLUDE_DIR:PATH=/usr/include/python2.7 \
+    -DPYTHON_LIBRARY:FILEPATH=/usr/lib/python2.7/config-x86_64-linux-gnu/libpython2.7.so \
+    ../SimpleITK/SuperBuild && \
+  ninja && \
+  cd SimpleITK-build/Wrapping && \
+  /usr/bin/python ./PythonPackage/setup.py install && \
   cd ../../.. && \
   rm -rf SimpleITK SimpleITK-build
 
