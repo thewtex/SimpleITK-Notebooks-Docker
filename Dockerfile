@@ -39,7 +39,7 @@ RUN pip2 install . && \
 WORKDIR /usr/src
 RUN git clone git://itk.org/SimpleITK.git && \
   cd SimpleITK && \
-  git checkout v0.9.1 && \
+  git checkout 296de38d097115b14a8d0892f075360f1e1323de && \
   cd .. && \
   mkdir SimpleITK-build && \
   cd SimpleITK-build && \
