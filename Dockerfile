@@ -18,10 +18,12 @@ RUN apt-get update && apt-get install -y \
   python \
   python-matplotlib \
   python-numpy \
+  python-scipy \
   python-pip \
   python3 \
   python3-matplotlib \
   python3-numpy \
+  python3-scipy \
   python3-pip \
   ninja-build \
   wget \
