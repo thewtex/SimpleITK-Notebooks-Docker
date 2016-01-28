@@ -1,4 +1,4 @@
-FROM thewtex/jupyter-notebook-debian:1e8033dbf12f
+FROM thewtex/jupyter-notebook-debian:latest
 MAINTAINER Insight Software Consortium <community@itk.org>
 
 USER root
